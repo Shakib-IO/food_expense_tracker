@@ -1,0 +1,26 @@
+Create a project that simulates our food excel sheet.
+Simple website. (Similar to Github)
+
+Requirements:
+    1. SQL
+    2. Simple UI
+    3. Also update the excel
+
+Update:
+    1. Select Month/current date.
+    2. Select Shops/Create shop name.
+    3. Amount
+
+View:
+    1. Total Spend
+    2. Each Spend
+    3. Status (Which Shop and how much?)
+    4. Can view each Month expenses.
+
+
+# To Do:
+    1. Write test Case.
+    2. Follow style Guide.
+
+# Entended
+1. Upload screenshot and extract the shop name and price and save it to the sql and update everything for that Month automatically.

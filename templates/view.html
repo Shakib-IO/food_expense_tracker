@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>View Expenses</h2>
+
+<form method="get" action="{{ url_for('view_expenses') }}">
+  <label for="month">Month (required to see expenses)</label>
+  <select name="month" id="month">
+    <option value="">-- Select Month --</option>
+    {% for value, label in months %}
+    <option
+      value="{{ value }}"
+      {% if selected_month == value %}selected{% endif %}
+    >
+      {{ label }}
+    </option>
+    {% endfor %}
+  </select>
+
+  <label for="year">Year (optional)</label>
+  <select name="year" id="year">
+    <option value="">-- All Years --</option>
+    {% for y in years %}
+    <option value="{{ y }}" {% if selected_year == y %}selected{% endif %}>
+      {{ y }}
+    </option>
+    {% endfor %}
+  </select>
+
+  <label for="day">Day (optional)</label>
+  <input
+    type="number"
+    name="day"
+    id="day"
+    min="1"
+    max="31"
+    value="{{ selected_day if selected_day is not none else '' }}"
+  />
+
+  <button type="submit">Apply Filter</button>
+</form>
+
+<hr />
+
+{% if show_results %}
+
+  <h2>Total for Selected Period</h2>
+  <h3>Total Amount: {{ totals.get('Shakib', 0) + totals.get('Junit', 0)}}$</h3>
+  <ul>
+    <li>Shakib Spends: {{ totals.get('Shakib', 0) | round(3) }}$</li>
+    <li>Junit Spends: {{ totals.get('Junit', 0) | round(3) }}$</li>
+  </ul>
+
+  <h3>Who owes whom?</h3>
+  <p>{{ balance_message }}</p>
+
+  <hr />
+
+  <h2>Expenses</h2>
+
+  <table border="1" cellpadding="4" cellspacing="1">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Who</th>
+        <th>Shop</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for expense in expenses %}
+      <tr>
+        <td>{{ expense.date }}</td>
+        <td>{{ expense.spender }}</td>
+        <td>{{ expense.shop }}</td>
+        <td>{{ "%.2f"|format(expense.amount) }}</td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="4">No expenses found for this filter.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% else %}
+
+  <p><em>Please select a month and click "Apply Filter" to see expenses.</em></p>
+
+{% endif %}
+
+{% endblock %}
